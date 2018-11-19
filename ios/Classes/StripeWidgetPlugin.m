@@ -7,23 +7,15 @@
   FlutterMethodChannel* channel = [FlutterMethodChannel
       methodChannelWithName:@"stripe_widget"
             binaryMessenger:[registrar messenger]];
-  UIViewController *viewController = (UIViewController *)registrar.window.rootViewController;
-  StripeWidgetPlugin* instance = [[StripeWidgetPlugin alloc] initWithViewController:viewController];
+  StripeWidgetPlugin* instance = [[StripeWidgetPlugin alloc] init];
   [registrar addMethodCallDelegate:instance channel:channel];
 }
 
-- (instancetype)initWithViewController:(UIViewController *)viewController {
-    self = [super init];
-    if (self) {
-        self.viewController = viewController;
-    }
-    return self;
-}
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
    if ([@"addSource" isEqualToString:call.method]) {
 
-       [self openStripeCardVC:self.viewController result:result];
+       [self openStripeCardVCWithResult:result];
    }
    else if ([@"setPublishableKey" isEqualToString:call.method]) {
        [[STPPaymentConfiguration sharedConfiguration] setPublishableKey:call.arguments];
@@ -33,7 +25,7 @@
    }
 }
 
--(void)openStripeCardVC:(UIViewController*)controller result:(FlutterResult) result {
+-(void)openStripeCardVCWithResult:(FlutterResult) result {
     flutterResult = result;
     UIViewController* vc = [UIApplication sharedApplication].keyWindow.rootViewController;
     STPAddSourceViewController* addSourceVC = [[STPAddSourceViewController alloc] init];

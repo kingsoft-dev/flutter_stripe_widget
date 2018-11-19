@@ -35,8 +35,12 @@ class StripeWidgetPlugin(private val activity: Activity): MethodCallHandler {
         dialogs = Dialog(activity)
         dialogs.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
-        dialogs.setCancelable(false)
+        dialogs.setCancelable(true)
+
         dialogs.setContentView(R.layout.activity_stripe)
+        dialogs.findViewById<View>(R.id.buttonCancel)?.setOnClickListener{
+            dialogs.dismiss()
+        }
         dialogs.findViewById<View>(R.id.buttonSave)?.setOnClickListener {
             val mCardInputWidget = dialogs.findViewById<View>(R.id.card_input_widget) as CardInputWidget
 
