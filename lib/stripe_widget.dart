@@ -11,13 +11,10 @@ class StripeWidget {
     return token;
   }
 
-  static bool _publishableKeySet = false;
-
   /// set the publishable key that stripe should use
   /// call this once and before you use [addSource]
   static void setPublishableKey(String apiKey) {
     _channel.invokeMethod('setPublishableKey', apiKey);
-    _publishableKeySet = true;
   }
 
 }
