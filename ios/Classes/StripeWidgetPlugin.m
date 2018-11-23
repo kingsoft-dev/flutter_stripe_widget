@@ -41,11 +41,12 @@
     [addCardViewController dismissViewControllerAnimated:true completion:nil];
 }
 
-- (void)addCardViewController:(STPAddSourceViewController *)addCardViewController
-              didCreateSource:(STPSource *)source
-                   completion:(STPErrorBlock)completion {
-    flutterResult(source.stripeID);
-
+- (void)addCardViewController:(STPAddSourceViewController *)addCardViewController didCreateToken:(STPToken *)token completion:(STPErrorBlock)completion {
+    flutterResult(token.tokenId);
+    
     [addCardViewController dismissViewControllerAnimated:true completion:nil];
+
 }
+
+
 @end

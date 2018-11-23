@@ -8,8 +8,10 @@ import android.view.View
 import android.view.Window
 import com.stripe.android.SourceCallback
 import com.stripe.android.Stripe
+import com.stripe.android.TokenCallback
 import com.stripe.android.model.Source
 import com.stripe.android.model.SourceParams
+import com.stripe.android.model.Token
 import com.stripe.android.view.CardInputWidget
 import com.stripe.android.view.CardMultilineWidget
 import io.flutter.plugin.common.MethodCall
@@ -50,13 +52,13 @@ class StripeWidgetPlugin(private val activity: Activity): MethodCallHandler {
                     dialogs.findViewById<View>(R.id.buttonSave)?.visibility = View.GONE
 
                     val stripe = Stripe(activity!!, publishableKey)
-                    stripe.createSource(SourceParams.createCardParams(card), object : SourceCallback {
-                        override fun onSuccess(source: Source?) {
+                    stripe.createToken(card, object : TokenCallback {
+                        override fun onSuccess(token: Token?) {
                             dialogs.findViewById<View>(R.id.progress)?.visibility = View.GONE
                             dialogs.findViewById<View>(R.id.buttonSave)?.visibility = View.GONE
 
-                            if (source != null) {
-                                result.success(source.id)
+                            if (token != null) {
+                                result.success(token.id);
                                 dialogs.dismiss()
                             }
                         }
@@ -68,8 +70,8 @@ class StripeWidgetPlugin(private val activity: Activity): MethodCallHandler {
                                 Snackbar.make(dialogs.findViewById(R.id.root_layout), error!!.localizedMessage, Snackbar.LENGTH_LONG).show()
                             }
                         }
+                    });
 
-                    })
                 }
             }
 

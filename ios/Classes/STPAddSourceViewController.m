@@ -42,12 +42,9 @@
     cardParams.currency = self.managedAccountCurrency;
     STPSourceParams *sourceParams = [STPSourceParams cardParamsWithCard:cardParams];
     if (cardParams) {
-        [apiClient createSourceWithParams:sourceParams completion:^(STPSource *source, NSError *tokenError) {
-            if (tokenError) {
-                //[self handleCardTokenError:tokenError];
-            }
-            else {
-                [self.srcDelegate addCardViewController:self didCreateSource:source completion:^(NSError * _Nullable error) {
+        [apiClient createTokenWithCard:cardParams completion:^(STPToken * _Nullable token, NSError * _Nullable error) {
+            if (!error) {
+                [self.srcDelegate addCardViewController:self didCreateToken:token completion:^(NSError * _Nullable error) {
                     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                         if (error) {
                             //[self handleCardTokenError:error];
